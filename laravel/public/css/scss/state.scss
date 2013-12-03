@@ -1,0 +1,15 @@
+/* State CSS */
+.no-margin {
+  margin: 0;   
+}
+.no-padding {
+  padding: 0; 
+}
+
+$shadow-color: #333;
+.shadow-right {
+  box-shadow: 5px 0 5px -5px $shadow-color;
+}
+.shadow-bottom {
+  box-shadow: 0 3px 3px -3px $shadow-color;
+}

@@ -1,0 +1,35 @@
+/* Theme CSS */
+.nav-pills.nav-styled {
+  border-radius: 0;
+  border-left: 4px solid $main-color;
+
+  > li {
+    border-bottom: 1px solid $alt-color;
+    border-radius: 0;
+    
+    > a {
+      > .btn {
+        margin: -4px 2px 0 0;
+      }
+      
+      > i {
+        opacity: 0.5;
+        display: inline-block;
+      }
+      
+      &:hover {
+        background: none;
+        text-decoration: underline;
+      }
+      
+      &:hover i {
+        opacity: 0.75;  
+      }
+    }
+    
+    > div.details, > div.info {
+      font-weight: normal;
+      padding: 0 10px;
+    }
+  }
+}

@@ -1,0 +1,10 @@
+/* Layout CSS */
+.row-fluid [class*="span"] {
+  margin-left: 0;
+  margin-right: 0; 
+  padding-right: 0;
+}
+
+.row-fluid .span9 {
+ width: 100% - 23.056923076923077%;
+}

@@ -1,0 +1,47 @@
+<section class="search-bar">
+  <div class="row-fluid shadow-bottom">
+    <div class="span3 title">
+      <h4><a href="<% URL::current() %>">RaceSurfer</a></h4> 
+    </div>
+  
+    <div class="span6 input-append">
+      <input type="text" class="input-large not-rounded" placeholder="(e.g. 5K, 10K, Marathon)" data-ng-model="data.term">
+      <span class="add-on search" title="Search" data-ng-click="search()"><i class="icon-search"></i></span> 
+    </div>
+  
+    <div class="span3 credits text-right">
+      <a href="http://developer.active.com/">
+        <img ng-src="{{ activeLogo }}" alt="Powered by Active">
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="content clear">
+  <div class="row-fluid">
+    <div class="span3 sidebar shadow-right">
+      <div class="text-center summary">
+        <span ng-hide="hasSearched">Enter a search term above to populate results.</span>
+        <span ng-show="isSearching"><img class="loader" ng-src="{{ loading }}"> Loading...</span>
+        <span ng-show="finished()">Your search returned {{ items.length }} results.</span> 
+      </div>
+      <ul class="nav nav-stacked nav-pills nav-styled">
+        <li data-ng-repeat="item in items">
+          <a href="#">
+            <i class="icon-chevron-right pull-right"></i>
+            {{ item.title }} <br>  
+          </a>
+          <div class="info"> 
+            {{ item.meta.city }}, {{ item.meta.eventState }} - 
+            {{ item.meta.startDate | date:'MMMM d, yyyy' }} {{ item.meta.startTime }}
+          </div>
+          <div class="details hide"> 
+            <a href="{{ item.url }}">Register</a> <br> 
+            {{ item.meta.allText }} 
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="span9 map-container"></div>
+  </div>
+</section>
