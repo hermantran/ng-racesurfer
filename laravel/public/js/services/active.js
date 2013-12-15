@@ -1,10 +1,11 @@
 define([
-  'app',
+  'app'
 ], function(app) {
-  app.service('Active', function($http) {
+  'use strict';
+  app.service('Active', function($http, paths) {
     this.search = function(data) {
       console.log(data);
-      var url = paths.active; // Global set in Laravel view
+      var url = paths.active;
       
       var promise = $http({
         method: 'GET',

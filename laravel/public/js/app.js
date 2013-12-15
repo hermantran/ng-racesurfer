@@ -1,6 +1,8 @@
 define([
-  'angular'
+  'angular',
+  'angular.route'
 ], function(angular) {
   'use strict';
-  return angular.module('myApp', []);
+  return angular.module('myApp', ['ngRoute'])
+    .value('paths', paths);
 });
