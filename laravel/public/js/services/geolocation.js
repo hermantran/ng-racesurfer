@@ -5,7 +5,7 @@ define([
   app.service('geolocation', function($rootScope, $window, $q) {
     this.isEnabled = 'geolocation' in $window.navigator;
     
-    this.get = function(prop) {
+    this.get = function() {
       var deferred = $q.defer();
       
       $window.navigator.geolocation.getCurrentPosition(function(position) {

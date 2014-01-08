@@ -6,7 +6,7 @@ define([
   return app.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/', { 
       controller: 'listCtrl', 
-      templateUrl: paths.base + '/js/templates/search.html?ad' 
+      templateUrl: paths.base + '/js/templates/search.html?a' 
     });  
   }]);
 });
