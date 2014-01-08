@@ -8,7 +8,7 @@ define([
     this.get = function() {
       var deferred = $q.defer();
       
-      $window.navigator.geolocation.getCurrentPosition(function(position) {
+      function onSuccess(position) {
         var pos = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
@@ -17,8 +17,15 @@ define([
         $rootScope.$apply(function() {
           deferred.resolve(pos);
         });
-      });
+      }
       
+      function onError() {
+        $rootScope.$apply(function() {
+          deferred.resolve(false);
+        });
+      }
+      
+      $window.navigator.geolocation.getCurrentPosition(onSuccess, onError);
       return deferred.promise;
     };
   });

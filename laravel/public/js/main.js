@@ -26,5 +26,5 @@ require([
   'routes/mainRoutes',
   'async'
 ], function(angular) {
-  angular.bootstrap(document , ['myApp']);
+  angular.bootstrap(document , ['racesurfer']);
 });

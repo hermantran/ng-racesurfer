@@ -20,10 +20,25 @@ module.exports = function(grunt) {
       }
     },
     
+    sass: {
+      dist: {
+        options: {
+          style: 'compressed'  
+        },
+        files: {
+          'public/css/styles.min.css': ['public/css/scss/main.scss']  
+        }
+      }
+    },
+    
     watch: {
       js: {
         files: ['<%= jshint.files %>'],
         tasks: ['jshint']
+      },
+      scss: {
+        files: ['public/css/**/*.scss'],
+        tasks: ['sass']
       }
     }
   });

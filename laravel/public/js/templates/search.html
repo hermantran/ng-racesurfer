@@ -11,7 +11,7 @@
   
     <div class="span3 credits text-right">
       <a href="http://developer.active.com/">
-        <img ng-src="{{ activeLogo }}" alt="Powered by Active">
+        <img ng-src="{{ activeLogo }}" alt="Powered by Active" width="247" height="30">
       </a>
     </div>
   </div>
@@ -21,7 +21,10 @@
   <div class="row-fluid">
     <div class="span3 sidebar shadow-right">
       <div class="text-center summary">
-        <span data-ng-hide="geolocationEnabled">Please use a browser that supports geolocation.</span>
+        <span data-ng-hide="geolocationEnabled">
+          <i class="icon-warning-sign"></i>
+          This application requires the use of geolocation. Please use a browser that supports geolocation, or allow geolocation to determine your location.
+        </span>
         <span data-ng-show="geolocationEnabled && !hasSearched">Enter a search term above to populate results.</span>
         <span data-ng-show="isSearching"><img class="loader" data-ng-src="{{ loading }}"> Loading...</span>
         <span data-ng-show="finished()">Your search returned {{ items.length }} results.</span> 
