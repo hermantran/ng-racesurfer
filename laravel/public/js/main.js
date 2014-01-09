@@ -2,7 +2,7 @@ require.config({
   baseUrl: 'js/',
   
   paths: {
-    'angular': ['//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.5/angular.min', 'lib/angular.min'],
+    'angular': 'lib/angular.min',
     'angular.route': 'lib/angular-route.min',
     'angular.animate': 'lib/angular-animate.min',
     'angular.sanitize': 'lib/angular-sanitize.min',
@@ -30,13 +30,14 @@ require.config({
     }
   },
   
-  urlArgs: 'bust=' + new Date().getTime()
+  // urlArgs: 'bust=' + new Date().getTime()
 });
 
 require([
   'angular',
+  'app',
   'routes/mainRoutes',
   'async'
-], function(angular) {
-  angular.bootstrap(document , ['racesurfer']);
+], function() {
+  angular.bootstrap(document, ['racesurfer']);
 });

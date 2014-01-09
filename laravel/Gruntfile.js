@@ -11,11 +11,23 @@ module.exports = function(grunt) {
           name: 'main',
           include: ['requireLib'],
           paths: {
-            angular: 'empty:',
+            angular: 'lib/angular.min',
             requireLib: 'lib/require.min',
+            'angular.route': 'lib/angular-route.min',
+            'angular.animate': 'lib/angular-animate.min',
+            'angular.sanitize': 'lib/angular-sanitize.min',
             async: 'lib/async'
           },
-          out: 'public/js/main.min.js'
+          out: 'public/js/dist/main.js',
+          optimize: 'none'
+        }
+      }
+    },
+
+    uglify: {
+      dist: {
+        files: {
+          'public/js/dist/main.min.js': ['public/js/dist/main.js']
         }
       }
     },
@@ -49,4 +61,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 };
