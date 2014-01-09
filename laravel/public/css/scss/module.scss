@@ -35,16 +35,16 @@ $input-margin: 5px;
     > .input-append {
       margin-bottom: 0;
       
-      > input[type="text"] {
+      input[type="text"] {
         height: $bar-height - 4*$input-margin;
       }
       
-      > input[type="text"], span.add-on {
+      input[type="text"], span.add-on {
         margin: $input-margin 0;
         border-radius: 0;       
       }
       
-      > span.add-on {
+      span.add-on {
         border-left: 0;
         cursor: pointer;   
       }

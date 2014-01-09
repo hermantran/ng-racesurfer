@@ -2,7 +2,7 @@ define([
   'app'
 ], function(app) {
   'use strict';
-  app.service('gmap', function(google, paths) {
+  app.service('gmap', function(google) {
     this.markers = [];
     this.infowindows = [];
     this.listeners = [];
@@ -14,12 +14,25 @@ define([
       opts.center = new google.maps.LatLng(opts.center.lat, opts.center.lng);
       
       this.map = new google.maps.Map(opts.el, opts);
-      
-      new google.maps.Marker({
+      this.setUserMarker(opts);
+    };
+    
+    this.setUserMarker = function(opts) {
+      var self = this;
+      var marker = new google.maps.Marker({
         map: this.map,
         position: opts.center,
-        icon: paths.circle,
-        title: 'Current Location'
+        icon: opts.icon,
+        title: opts.title
+      });
+      
+      var infowindow = new google.maps.InfoWindow({
+        content: opts.content,
+        maxWidth: opts.maxWidth
+      });
+      
+      google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(self.map, marker);
       });
     };
     
@@ -32,8 +45,8 @@ define([
       });
       
       var infowindow = new google.maps.InfoWindow({
-        content: opts.title,
-        maxWidth: 200
+        content: opts.content,
+        maxWidth: opts.maxWidth
       });
       
       var listener = google.maps.event.addListener(marker, 'click', function() {
@@ -43,6 +56,15 @@ define([
       this.markers.push(marker);
       this.infowindows.push(infowindow);
       this.listeners.push(listener);
+    };
+
+    this.activateMarker = function(index) {
+      google.maps.event.trigger(this.markers[index], 'click');
+      this.map.panTo(this.markers[index].getPosition());
+    };
+
+    this.closeInfowindow = function(index) {
+      this.infowindows[index].close();
     };
     
     this.clearMarkers = function() {
