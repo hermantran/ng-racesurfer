@@ -516,8 +516,37 @@ define('controllers/listCtrl',[
     $scope.hasSearched = false;
     $scope.isSearching = false;
     $scope.geolocationEnabled = geolocation.isEnabled;
+    $scope.geolocationLoaded = false;
     $scope.map = $document[0].querySelectorAll('.map')[0];
     $scope.data = {};
+
+    $scope.$watch('items', function() {
+      $scope.populateMap($scope.items);
+    });
+
+    if ($scope.geolocationEnabled) {
+      geolocation.get().then(function(pos) {
+        if (pos) {
+          $scope.data.lat = pos.lat;
+          $scope.data.lng = pos.lng;
+          $scope.geolocationLoaded = true;
+          gmap.render({
+            center: pos,
+            el: $scope.map,
+            title: 'Current Location',
+            icon: paths.circle,
+            content: 'Current Location',
+            maxWidth: 250
+          });
+        } else {
+          $scope.geolocationEnabled = false;  
+        }
+      });
+    }
+
+    $scope.loaded = function() {
+      return $scope.geolocationEnabled && $scope.geolocationLoaded && !$scope.hasSearched;
+    };
     
     $scope.finished = function() {
       return $scope.hasSearched && !$scope.isSearching;  
@@ -532,10 +561,6 @@ define('controllers/listCtrl',[
         $scope.isSearching = false;
       });
     };
-    
-    $scope.$watch('items', function() {
-      $scope.populateMap($scope.items);
-    });
     
     $scope.populateMap = function(items) {
       var len = items ? items.length : 0,
@@ -562,7 +587,9 @@ define('controllers/listCtrl',[
 
     $scope.tmpl = function(item) {
       return [
-        '<h5 class="no-padding no-margin">' + item.title + '</h5>',
+        '<a href="' + item.url + '" target="_blank">',
+          '<h5 class="no-padding no-margin">' + item.title + '</h5>',
+        '</a>',
         item.meta.eventAddress + '<br>',
         item.meta.city + ', ' + item.meta.eventState
       ].join('');
@@ -579,25 +606,6 @@ define('controllers/listCtrl',[
         gmap.activateMarker(index);
       }
     };
-
-    if ($scope.geolocationEnabled) {
-      geolocation.get().then(function(pos) {
-        if (pos) {
-          $scope.data.lat = pos.lat;
-          $scope.data.lng = pos.lng;
-          gmap.render({
-            center: pos,
-            el: $scope.map,
-            title: 'Current Location',
-            icon: paths.circle,
-            content: 'Current Location',
-            maxWidth: 250
-          });
-        } else {
-          $scope.geolocationEnabled = false;  
-        }
-      });
-    }
   });
 });
 define('routes/mainRoutes',[
@@ -608,7 +616,7 @@ define('routes/mainRoutes',[
   return app.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/', { 
       controller: 'listCtrl', 
-      templateUrl: paths.base + '/js/templates/search.html?1' 
+      templateUrl: paths.base + '/js/templates/search.html' 
     });  
   }]);
 });

@@ -6,8 +6,8 @@
   
     <div class="span6 input-append">
       <form data-ng-submit="search()">
-        <input type="text" class="input-large not-rounded" placeholder="(e.g. 5K, 10K, Marathon)" data-ng-model="data.term" data-ng-disabled="!geolocationEnabled">
-        <span class="add-on search" title="Search" data-ng-click="search()" data-ng-show="geolocationEnabled"><i class="icon-search"></i></span> 
+        <input type="text" class="input-large not-rounded" data-ng-disabled="!geolocationLoaded || !geolocationEnabled" placeholder="(e.g. 5K, 10K, Marathon)" data-ng-model="data.term">
+        <span class="add-on search" title="Search" data-ng-click="search()" data-ng-show="geolocationLoaded && geolocationEnabled"><i class="icon-search"></i></span> 
       </form>
     </div>
   
@@ -23,13 +23,22 @@
   <div class="row-fluid">
     <div class="span3 sidebar shadow-right">
       <div class="text-center summary">
+        <span data-ng-hide="!geolocationEnabled || geolocationLoaded">
+          Press "Allow" when prompted for access to your location. This allows the application to search for race events near you.
+        </span>
         <span data-ng-hide="geolocationEnabled">
           <i class="icon-warning-sign"></i>
           This application requires the use of geolocation. Please use a browser that supports geolocation, or allow geolocation to determine your location.
         </span>
-        <span data-ng-show="geolocationEnabled && !hasSearched">Enter a search term above to populate results.</span>
-        <span data-ng-show="isSearching"><img class="loader" data-ng-src="{{ loading }}"> Loading...</span>
-        <span data-ng-show="finished()">Your search returned {{ items.length }} results.</span> 
+        <span data-ng-show="loaded()">
+          Enter a search term above to populate results.
+        </span>
+        <span data-ng-show="isSearching">
+          <img class="loader" data-ng-src="{{ loading }}"> Loading...
+        </span>
+        <span data-ng-show="finished()">
+          Your search returned {{ items.length }} results.
+        </span> 
       </div>
       <ul class="nav nav-stacked nav-pills nav-styled">
         <li data-ng-repeat="item in items">

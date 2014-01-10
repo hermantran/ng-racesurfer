@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     jshint: {
-      files: ['public/js/**/*.js', '!**/lib/*.js', '!**/*.min.js']  
+      files: ['public/js/**/*.js', '!**/lib/*.js', '!**/*.min.js', '!**/dist/*.js']  
     },
     
     requirejs: {
