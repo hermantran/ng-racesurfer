@@ -15,9 +15,8 @@ class Active {
 		return $json;
 	}
 
-	public function searchRacesByAddress($searchTerm, $address) {
-		$searchTerm = urlencode($address);
-		$url = $this->urlString . $this->_apiKey . "&k=$searchTerm&l=$lat;$lng";
+	public function searchRacesByPostalCode($searchTerm, $postalCode) {
+		$url = $this->urlString . $this->_apiKey . "&k=$searchTerm&l=$postalCode";
 		$json = file_get_contents($url);
 		return $json;
 	}

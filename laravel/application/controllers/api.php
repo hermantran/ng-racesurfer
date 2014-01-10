@@ -8,17 +8,22 @@ class API_Controller extends Base_Controller {
   public $restful = true;
   
   public function get_active() {
-      $searchTerm = Input::get('term');
-      $lat = Input::get('lat');
-      $lng = Input::get('lng');
-      
-      if (empty($active)) { 
-        $active = new Active('vxxz4hnnj8fdknbxk6pfm7tn');
-      }
-      
+    $searchTerm = Input::get('term');
+    $lat = Input::get('lat');
+    $lng = Input::get('lng');
+    $postalCode = Input::get('postalCode');
+    
+    if (empty($active)) { 
+      $active = new Active('vxxz4hnnj8fdknbxk6pfm7tn');
+    }
+    
+    if (empty($postalCode)) {
       $active_search = $active->searchRacesByCoordinates($searchTerm, $lat, $lng);
-      
-      return $active_search;
+    } else {
+      $active_search = $active->searchRacesByPostalCode($searchTerm, $postalCode);
+    }
+    
+    return $active_search;
 	}
 	
   public function get_flickr() {
