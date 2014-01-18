@@ -1,5 +1,7 @@
 module.exports = function(grunt) {
   grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    
     jshint: {
       files: ['public/js/**/*.js', '!**/lib/*.js', '!**/*.min.js', '!**/dist/*.js']  
     },
@@ -25,6 +27,11 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      options: {
+        // Need to preserve AngularJS variables (e.g. $scope)
+        mangle: false,
+        banner: '/* <%= pkg.name %> - <%= grunt.template.today("yyyy-mm-dd") %> */'
+      },
       dist: {
         files: {
           'public/js/dist/main.min.js': ['public/js/dist/main.js']
@@ -55,7 +62,7 @@ module.exports = function(grunt) {
     }
   });
   
-  grunt.registerTask('default', ['jshint', 'requirejs']);
+  grunt.registerTask('default', ['jshint', 'requirejs', 'uglify']);
   
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-jshint');
