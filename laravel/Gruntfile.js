@@ -55,7 +55,7 @@ module.exports = function(grunt) {
     }
   });
   
-  grunt.registerTask('default', ['jshint']);
+  grunt.registerTask('default', ['jshint', 'requirejs']);
   
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-jshint');

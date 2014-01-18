@@ -614,10 +614,14 @@ define('routes/mainRoutes',[
 ], function(app) {
   
   return app.config(['$routeProvider', function($routeProvider) {
-    $routeProvider.when('/', { 
-      controller: 'listCtrl', 
-      templateUrl: paths.base + '/js/templates/search.html' 
-    });  
+    var main = { 
+        controller: 'listCtrl', 
+        templateUrl: paths.base + '/js/templates/search.html' 
+    };
+    
+    $routeProvider
+      .when('/', main)
+      .when('/!', main);
   }]);
 });
 require.config({
