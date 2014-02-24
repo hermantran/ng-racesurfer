@@ -1,4 +1,3 @@
-
 /*
  RequireJS 2.1.9 Copyright (c) 2010-2012, The Dojo Foundation All Rights Reserved.
  Available via the MIT or new BSD license.
@@ -346,6 +345,7 @@ define('async',[],function(){
         }
     };
 });
+
 define('app',[
   'angular',
   'angular.route',
@@ -517,12 +517,12 @@ define('controllers/listCtrl',[
     $scope.isSearching = false;
     $scope.geolocationEnabled = geolocation.isEnabled;
     $scope.geolocationLoaded = false;
+    
     $scope.map = $document[0].querySelectorAll('.map')[0];
     $scope.data = {};
-
-    $scope.$watch('items', function() {
-      $scope.populateMap($scope.items);
-    });
+    $scope.data.page = 1;
+    $scope.endPage = 1;
+    $scope.items = [];
 
     if ($scope.geolocationEnabled) {
       geolocation.get().then(function(pos) {
@@ -530,6 +530,7 @@ define('controllers/listCtrl',[
           $scope.data.lat = pos.lat;
           $scope.data.lng = pos.lng;
           $scope.geolocationLoaded = true;
+          
           gmap.render({
             center: pos,
             el: $scope.map,
@@ -556,18 +557,36 @@ define('controllers/listCtrl',[
       $scope.hasSearched = true;
       $scope.isSearching = true;
     
-      Active.search($scope.data).then(function(response) {
-        $scope.items = response.data._results;
-        $scope.isSearching = false;
-      });
+      Active.search($scope.data).then($scope.updateData);
+    };
+    
+    $scope.updateData = function(response) {
+      $scope.isSearching = false;
+      $scope.count = response.data.numberOfResults;
+      $scope.endPage = Math.ceil(response.data.numberOfResults / response.data.pageSize);
+      
+      if ($scope.data.page === 1) {
+        gmap.clearMarkers();
+        $scope.items.length = 0;
+      }
+      $scope.items.push.apply($scope.items, response.data._results);
+      $scope.populateMap(response.data._results);
+    };
+    
+    $scope.newSearch = function() {
+      $scope.data.page = 1;
+      $scope.search();
+    };
+    
+    $scope.nextPage = function() {
+      $scope.data.page++;
+      $scope.search();
     };
     
     $scope.populateMap = function(items) {
       var len = items ? items.length : 0,
           i = 0;
-      
-      gmap.clearMarkers();
-      
+            
       if (len < 1) {
         return;  
       }
@@ -668,3 +687,4 @@ require([
   angular.bootstrap(document, ['racesurfer']);
 });
 define("main", function(){});
+

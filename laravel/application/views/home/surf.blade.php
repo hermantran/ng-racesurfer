@@ -12,6 +12,7 @@
   <body>
     <ng:view></ng:view>
     <script>var paths = { base: '<% URL::base() %>', loading: '<% URL::to_asset("img/ajax-loader.gif") %>', circle: '<% URL::to_asset("img/circle.png") %>', logo: '<% URL::to_asset("img/power-by--drk.png") %>', active: '<% URL::to_action("api@active") %>', flickr: '<% URL::to_action("api@flickr") %>' };</script>
+    <!--<script src="<% URL::to_asset("js/lib/require.min.js") %>" data-main="js/main"></script>-->
     <script src="<% URL::to_asset("js/dist/main.min.js") %>"></script>
   </body>
 </html>
