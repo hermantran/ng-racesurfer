@@ -1,3 +1,4 @@
+
 /*
  RequireJS 2.1.9 Copyright (c) 2010-2012, The Dojo Foundation All Rights Reserved.
  Available via the MIT or new BSD license.
@@ -345,7 +346,6 @@ define('async',[],function(){
         }
     };
 });
-
 define('app',[
   'angular',
   'angular.route',
@@ -365,6 +365,22 @@ define('filters/unsafe',[
   app.filter('unsafe', function($sce) {
     return function(val) {
       return $sce.trustAsHtml(val);
+    };
+  });
+});
+define('directives/scroll',[
+  'app'
+], function(app) {
+  
+  app.directive('whenScrolled', function() {
+    return function(scope, elm, attr) {
+      var raw = elm[0];
+      
+      elm.bind('scroll', function() {
+        if (raw.scrollTop + raw.offsetHeight >= raw.scrollHeight) {
+          scope.$apply(attr.whenScrolled);
+        }
+      });
     };
   });
 });
@@ -505,6 +521,7 @@ define('services/gmap',[
 define('controllers/listCtrl',[
   'app',
   'filters/unsafe',
+  'directives/scroll',
   'services/geolocation',
   'services/active',
   'services/gmap',
@@ -579,8 +596,10 @@ define('controllers/listCtrl',[
     };
     
     $scope.nextPage = function() {
-      $scope.data.page++;
-      $scope.search();
+      if ($scope.endPage > $scope.data.page && !$scope.isSearching) {
+        $scope.data.page++;
+        $scope.search();
+      }
     };
     
     $scope.populateMap = function(items) {
@@ -687,4 +706,3 @@ require([
   angular.bootstrap(document, ['racesurfer']);
 });
 define("main", function(){});
-

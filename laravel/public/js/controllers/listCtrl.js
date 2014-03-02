@@ -1,6 +1,7 @@
 define([
   'app',
   'filters/unsafe',
+  'directives/scroll',
   'services/geolocation',
   'services/active',
   'services/gmap',
@@ -75,8 +76,10 @@ define([
     };
     
     $scope.nextPage = function() {
-      $scope.data.page++;
-      $scope.search();
+      if ($scope.endPage > $scope.data.page && !$scope.isSearching) {
+        $scope.data.page++;
+        $scope.search();
+      }
     };
     
     $scope.populateMap = function(items) {
